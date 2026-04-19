@@ -1,0 +1,9 @@
+{
+  "buildCommand": "pnpm --filter @workspace/portfolio build",
+  "outputDirectory": "artifacts/portfolio/dist/public",
+  "installCommand": "pnpm install",
+  "framework": null,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
