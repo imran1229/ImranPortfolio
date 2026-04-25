@@ -5,7 +5,12 @@ const router: IRouter = Router();
 
 router.get("/healthz", (_req, res) => {
   const data = HealthCheckResponse.parse({ status: "ok" });
-  res.json(data);
+  res.json({
+    ...data,
+    uptime: process.uptime(),
+    memory: process.memoryUsage().heapUsed,
+    timestamp: new Date().toISOString(),
+  });
 });
 
 export default router;

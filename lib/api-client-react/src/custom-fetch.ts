@@ -247,6 +247,7 @@ async function parseJsonBody(
   try {
     return JSON.parse(normalized);
   } catch (cause) {
+    console.error('[api-client] fetch error', { method: requestInfo.method, url: requestInfo.url, status: response.status, message: cause instanceof Error ? cause.message : String(cause) });
     throw new ResponseParseError(response, raw, cause, requestInfo);
   }
 }
@@ -274,7 +275,8 @@ async function parseErrorBody(response: Response, method: string): Promise<unkno
   if (isJsonMediaType(mediaType) || looksLikeJson(normalized)) {
     try {
       return JSON.parse(normalized);
-    } catch {
+    } catch (err) {
+      console.error('[api-client] fetch error', { method, url: response.url, status: response.status, message: err instanceof Error ? err.message : String(err) });
       return raw;
     }
   }

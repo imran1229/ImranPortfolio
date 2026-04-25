@@ -47,9 +47,9 @@ function CustomCursor() {
   const ry = useSpring(my, { damping: 26, stiffness: 260, mass: 0.5 });
 
   useEffect(() => {
-    const move = (e: MouseEvent) => { mx.set(e.clientX); my.set(e.clientY); };
-    const enter = () => setHov(true);
-    const leave = () => setHov(false);
+    const move = (e: MouseEvent) => { try { mx.set(e.clientX); my.set(e.clientY); } catch (err) { console.error('Effect error:', err); } };
+    const enter = () => { try { setHov(true); } catch (err) { console.error('Effect error:', err); } };
+    const leave = () => { try { setHov(false); } catch (err) { console.error('Effect error:', err); } };
     window.addEventListener("mousemove", move);
     const els = document.querySelectorAll("a, button");
     els.forEach(el => { el.addEventListener("mouseenter", enter); el.addEventListener("mouseleave", leave); });
@@ -114,13 +114,15 @@ function ScrambleText({ text, className = "" }: { text: string; className?: stri
     let i = 0;
     const total = text.length * 3;
     const id = setInterval(() => {
-      setOut(text.split("").map((c, idx) => {
-        if (c === " ") return " ";
-        if (idx < Math.floor(i / 3)) return c;
-        return CHARS[Math.floor(Math.random() * CHARS.length)];
-      }).join(""));
-      i++;
-      if (i > total) clearInterval(id);
+      try {
+        setOut(text.split("").map((c, idx) => {
+          if (c === " ") return " ";
+          if (idx < Math.floor(i / 3)) return c;
+          return CHARS[Math.floor(Math.random() * CHARS.length)];
+        }).join(""));
+        i++;
+        if (i > total) clearInterval(id);
+      } catch (err) { console.error('Effect error:', err); }
     }, 35);
     return () => clearInterval(id);
   }, [inView, text]);
