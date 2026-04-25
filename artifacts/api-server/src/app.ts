@@ -35,14 +35,14 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
 
-app.use('/api/*', (_req, res) => {
+app.use('/api/*path', (_req, res) => {
   res.status(404).json({ error: 'Not found' });
 });
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const staticPath = path.join(__dirname, "../../portfolio/dist");
 app.use(express.static(staticPath));
-app.get("*", (_req, res) => {
+app.get("*path", (_req, res) => {
   res.sendFile(path.join(staticPath, "index.html"), (err) => { if (err && !res.headersSent) res.status(500).json({ error: 'Internal server error' }); });
 });
 
