@@ -1,15 +1,14 @@
 [variables]
 NODE_ENV = "production"
-COREPACK_INTEGRITY_KEYS = "0"
 
 [phases.setup]
 nixPkgs = ["nodejs_22"]
 
 [phases.install]
-cmds = ["corepack prepare pnpm@9 --activate && pnpm i --frozen-lockfile"]
+cmds = ["npx --yes pnpm@9 i --frozen-lockfile"]
 
 [phases.build]
-cmds = ["pnpm --filter @workspace/portfolio build && pnpm --filter @workspace/api-server build"]
+cmds = ["npx pnpm@9 --filter @workspace/portfolio build && npx pnpm@9 --filter @workspace/api-server build"]
 
 [start]
 cmd = "node artifacts/api-server/dist/index.mjs"
