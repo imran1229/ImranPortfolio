@@ -33,7 +33,10 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --ignore-scripts
+
+      - name: Install Linux native deps
+        run: pnpm add -w @rollup/rollup-linux-x64-gnu @tailwindcss/oxide-linux-x64-gnu lightningcss-linux-x64-gnu --ignore-scripts
 
       - name: Build
         run: pnpm --filter @workspace/portfolio build
